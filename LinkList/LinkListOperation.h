@@ -183,6 +183,17 @@ void printList(){
   printf("\n");
 }
 
+// Function to free the memory allocated for the linked list 
+void freeMemory(){
+  Node *temp;
+
+  while (head != NULL) {
+    temp = head;
+    head = head->next;
+    free(temp);
+  }
+}
+
 Node * returnHead(){
   return head;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "LinkList/LinkListOperation.h"
 #include "Queue/Circular_queue_using_array.h"
@@ -13,8 +14,11 @@ void write(){
   fp = fopen("employee.txt", "a");
 
   if (fp == NULL) {
+    printf("\033[0;31m");  // Red text
+    printf("\033[1m");     // Bold text
     printf("Error opening file\n");
-    exit(1);
+    system("sleep 1");
+    printf("\033[0;31m");  // Red text
   }
 
   // write to the FILE
@@ -26,10 +30,14 @@ void write(){
   };
 
   fclose(fp);
+
+  freeMemory(); 
 }
 
 //  Create employee details
 void create(){
+#ifdef LINKLISTOPERATION_H
+
   int n;
 
   printf("Enter the number of employees: ");
@@ -40,7 +48,7 @@ void create(){
     char name[20], designation[20];
     int empID, salary;
 
-    printf("Enter employee details\n");
+    printf("Enter employee details\n\n");
     printf("Enter employee ID: ");
     scanf("%d", &empID);
     printf("Enter employee name: ");
@@ -56,27 +64,115 @@ void create(){
   write();
   // print nodes in the linked list
   printList();
+
+#else
+  printf("\033[0;31m");  // Red text
+  printf("\033[1m");     // Bold text
+  printf("LinkListOperation.h not found\n");
+  system("sleep 1");
+  printf("\033[1m");     // Bold text
+  printf("\033[0;32m");  // Green text
+#endif
 }
+
 
 
 // Read employee details
 void read(){
+  FILE *fp;
+  fp = fopen("employee.txt", "r");
 
+  if (fp == NULL) {
+    printf("\033[0;31m");  // Red text
+    printf("\033[1m");     // Bold text
+    printf("Error opening file\n");
+    system("sleep 1"); 
+    printf("\033[1m");     // Bold text
+    printf("\033[0;32m");  // Green text
+    return;
+  }
+ 
+  // store the employee details from the file
+  int empID, salary;
+  char name[20], designation[20];
+
+  // read from the FILE 
+  while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
+    printf("%d %s %s %d\n", empID, name, designation, salary);
+  }
+
+  fclose(fp);
 }
 // Update employee details
 void update(){
 
 }
-// Delete employee details
-void delete(){
 
+// Delete employee details
+void delete() {
+    int rm_empID, line_count;
+
+    printf("Enter the employee ID to delete: ");
+    scanf("%d", &rm_empID);
+
+    FILE *fp = fopen("employee.txt", "r");
+
+    // Count the number of lines in the file
+    line_count = 0;
+    char buffer[100];  // Assuming lines are no longer than 100 characters
+
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        line_count++;
+    }
+
+    rewind(fp);  // Reset the file pointer to the beginning
+
+    struct QUEUE *q=(struct QUEUE *)malloc(sizeof(struct QUEUE));
+    q->front_ind = q->rear_ind = -1;
+    q->size = line_count;
+
+    char str[line_count][100];  // An array to hold the lines
+
+    // Read lines and enqueue them
+    int i = 0;
+    while (fgets(str[i], sizeof(str[i]), fp) != NULL) {
+        // Now you have a line stored in str[i], you can enqueue it.
+        enqueue(q, str[i]);
+        i++;
+    }
+    fclose(fp);
+
+    // now dequeue the lines and write to the file 
+    printqueue(q);
+}
+
+
+
+// Use system-specific commands to clear the terminal
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");  // For Windows
+    #else
+        system("clear");  // For Linux and Unix-like systems
+    #endif
 }
 
 int main()
 {
+  clearScreen();
+
+  // Color codes for terminal ( ANSI escape codes )
+  //  [ indicates the start of a command.
+  //  0 is a parameter indicating a reset or default style.
+  //  ; separates parameters.
+  //  32 is the parameter for Green text.
+  printf("\033[0;32m");  // Green text
+  printf("\033[1m");     // Bold text
+  printf("\033[40m");    // Black background
 
   // Main menu
   while (1) {
+    printf("\033[40m");    // Black background
     int choice;
     
     printf("Choose an operation:\n");
@@ -88,6 +184,7 @@ int main()
     printf("Enter your choice: ");
     scanf("%d", &choice);
 
+    clearScreen();
     switch (choice) {
       case 1:
         // create operation
@@ -95,17 +192,29 @@ int main()
         break;
       case 2:
         // read operation
+        read();
         break;
       case 3:
         // update operation
         break;
       case 4:
         // delete operation
+        delete();
         break; 
+      case 5:
+        // exit
+        exit(0);
       default:
+        printf("\033[0;31m");  // Red text
+        printf("\033[1m");     // Bold text
         printf("Invalid choice\n");
+        system("sleep 1");
+        printf("\033[1m");     // Bold text
+        printf("\033[0;32m");  // Green text
+
     }
   }
+  printf("\033[0m");      // Reset to default colors
 
   return 0;
 }
