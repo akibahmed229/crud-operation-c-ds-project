@@ -110,40 +110,61 @@ void update(){
 
 // Delete employee details
 void delete() {
-    int rm_empID, line_count;
+  int rm_empID, line_count;
 
-    printf("Enter the employee ID to delete: ");
-    scanf("%d", &rm_empID);
+  printf("Enter the employee ID to delete: ");
+  scanf("%d", &rm_empID);
 
-    FILE *fp = fopen("employee.txt", "r");
+  FILE *fp = fopen("employee.txt", "r");
 
-    // Count the number of lines in the file
-    line_count = 0;
-    char buffer[100];  // Assuming lines are no longer than 100 characters
+  // Count the number of lines in the file
+  line_count = 0;
+  int empID, salary;
+  char name[20], designation[20];
+  char *found_emp;
 
-    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
-        line_count++;
+
+  while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
+    if (empID == rm_empID) {
+      found_emp = (char *)malloc(sizeof(char) * 100);
+      sprintf(found_emp, "%d %s %s %d\n", empID, name, designation, salary);
     }
+    
+    line_count++;
+  }
 
-    rewind(fp);  // Reset the file pointer to the beginning
+  rewind(fp);  // Reset the file pointer to the beginning
 
-    struct QUEUE *q=(struct QUEUE *)malloc(sizeof(struct QUEUE));
-    q->front_ind = q->rear_ind = -1;
-    q->size = line_count;
+  struct QUEUE *q=(struct QUEUE *)malloc(sizeof(struct QUEUE));
+  q->front_ind = q->rear_ind = -1;
+  q->size = line_count;
 
-    char str[line_count][100];  // An array to hold the lines
+  char str[line_count][100];  // An array to hold the lines
 
-    // Read lines and enqueue them
-    int i = 0;
-    while (fgets(str[i], sizeof(str[i]), fp) != NULL) {
-        // Now you have a line stored in str[i], you can enqueue it.
-        enqueue(q, str[i]);
-        i++;
+  // Read lines and enqueue them
+  int i = 0;
+  while (fgets(str[i], sizeof(str[i]), fp) != NULL) {
+    // Now you have a line stored in str[i], you can enqueue it.
+    enqueue(q, str[i]);
+    i++;
+  }
+  fclose(fp);
+
+  // now dequeue the lines and write to the file 
+  fp = fopen("employee.txt", "w");
+
+  printf("found employee %s \n", found_emp);
+  char *line;
+  for (int i = q->front_ind + 1; i <= q->rear_ind; i++) {
+    line = dequeue(q);
+     
+    // if line match wiht found_emp then skip that line and write other lines to the FILE 
+    if (strcmp(line, found_emp) == 0) {
+      continue;
     }
-    fclose(fp);
-
-    // now dequeue the lines and write to the file 
-    printqueue(q);
+    fputs(line, fp);
+  }
+  fclose(fp);
 }
 
 

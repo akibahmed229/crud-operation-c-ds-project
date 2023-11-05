@@ -40,13 +40,13 @@ void enqueue(struct QUEUE *q, char *data) {
 }
 
 // Function to deQUEUE (remove) an element from the queue
-char dequeue(struct QUEUE *q) {
+char * dequeue(struct QUEUE *q) {
     if (isEmpty(q)) {
         printf("QUEUE is empty\n");
-        return -1;
+        return NULL;
     } 
     q->front_ind++; // Move the front index forward
-    return *q->arr[q->front_ind][100]; // Return the data at the front index
+    return q->arr[q->front_ind][100]; // Return the data at the front index
 }
 
 // Function to print the elements in the QUEUE
