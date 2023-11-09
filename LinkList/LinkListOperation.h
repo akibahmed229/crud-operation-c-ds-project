@@ -1,11 +1,6 @@
 #ifndef LINKLISTOPERATION_H // If LINKLISTOPERATION_H is not defined   
 #define LINKLISTOPERATION_H // Define LINKLISTOPERATION_H
 
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 // Define the structure for the linked list of employees
 struct node
 {
@@ -14,7 +9,7 @@ struct node
   int empID;
   int salary;
   struct node *next;
-} *head; // Declare a pointer to the head of the linked list
+}; 
 
 typedef struct node Node; // Define an alias "Node" for "struct node"
 

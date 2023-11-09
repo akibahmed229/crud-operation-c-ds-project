@@ -1,4 +1,3 @@
-#include <bits/types/FILE.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +23,7 @@ void showError(char *message) {
     printf("\033[1m");     // Bold text
     printf("\033[0;32m");  // Green text
 }
+
 
 //  Function prototypes for CRUD operations on employee structure 
 //  Create employee details & save to file
