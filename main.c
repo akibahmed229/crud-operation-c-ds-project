@@ -26,14 +26,11 @@ void showError(char *message) {
     printf("\033[0;32m");  // Green text
 }
 
-
 //  Function prototypes for CRUD operations on employee structure 
 //  Create employee details & save to file
 void create(){
 #ifdef LINKLISTOPERATION_H
-
   int n;
-
   printf("Enter the number of employees: ");
   scanf("%d", &n);
 
@@ -101,8 +98,8 @@ void read(){
 
 // Update employee details
 void update() {
+#ifdef LINKLISTOPERATION_H
     int search_empID;
-
     printf("Enter the employee ID to update: ");
     scanf("%d", &search_empID);
 
@@ -157,10 +154,15 @@ void update() {
     }
 
     fclose(fp);
+    freeMemory();
+#else
+    showError("LinkListOperation.h file not found");
+#endif
 }
 
 // Delete employee details
 void delete() {
+#ifdef QUEUE_USING_ARRAY_H
     int rm_empID, line_count;
 
     printf("Enter the employee ID to delete: ");
@@ -216,6 +218,9 @@ void delete() {
     
     free(q);
     fclose(fp);
+#else
+    showError("QueueUsingArray.h file not found");
+#endif
 }
 
 int main()
