@@ -19,7 +19,7 @@ struct node
 typedef struct node Node; // Define an alias "Node" for "struct node"
 
 // Function to create a singly linked list with a single employee node
-void createSinglyLinkedList(char name[], char designation[], int empID, int salary, int n){
+void createSinglyLinkedList(char name[], char designation[], int empID, int salary){
   Node *newNode;
 
   // Allocate memory for the new node
@@ -34,11 +34,6 @@ void createSinglyLinkedList(char name[], char designation[], int empID, int sala
   if (head == NULL) {
     head = newNode;
   } else {
-    // If head is not null,add this new node at the end or beginning,determined by the value of n
-    if (n == 1) {
-      newNode->next = head;
-      head = newNode;
-    } else {
       Node *temp = head;
       while (temp->next != NULL) {
         temp = temp->next;
@@ -46,7 +41,6 @@ void createSinglyLinkedList(char name[], char designation[], int empID, int sala
       temp->next = newNode;
     }
   }
-}
 
 // Function to insert a new node at the beginning of the linked list
 void insertNodeAtBeginning(char name[], char designation[], int empID, int salary){

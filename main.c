@@ -1,3 +1,4 @@
+#include <bits/types/FILE.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -58,7 +59,7 @@ void create(){
     printf("Enter employee salary: ");
     scanf("%d", &salary);
 
-    createSinglyLinkedList(name, designation, empID, salary, n);
+    createSinglyLinkedList(name, designation, empID, salary);
   }
   // write to file 
   write();
@@ -74,8 +75,6 @@ void create(){
   printf("\033[0;32m");  // Green text
 #endif
 }
-
-
 
 // Read employee details
 void read(){
@@ -103,71 +102,125 @@ void read(){
 
   fclose(fp);
 }
-// Update employee details
-void update(){
 
+// Update employee details
+void update() {
+    int search_empID;
+
+    printf("Enter the employee ID to update: ");
+    scanf("%d", &search_empID);
+
+    FILE *fp;
+    fp = fopen("employee.txt", "r");
+
+    int empID, salary;
+    char name[20], designation[20];
+    Node *head = NULL; // Create a new linked list
+
+    while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
+        createSinglyLinkedList(name, designation, empID, salary); // Add employees to the linked list
+    }
+
+    fclose(fp);
+
+    int new_empID, new_salary;
+    char new_name[20], new_designation[20];
+
+    printf("Enter the new employee details\n\n");
+    printf("Enter employee ID: ");
+    scanf("%d", &new_empID);
+    printf("Enter employee name: ");
+    scanf("%s", new_name);
+    printf("Enter employee designation: ");
+    scanf("%s", new_designation);
+    printf("Enter employee salary: ");
+    scanf("%d", &new_salary);
+
+    Node *current = returnHead();
+
+    while (current != NULL) {
+        if (current->empID == search_empID) {
+            current->empID = new_empID;
+            strcpy(current->name, new_name);
+            strcpy(current->designation, new_designation);
+            current->salary = new_salary;
+
+            printf("Employee details updated successfully\n");
+            break;
+        }
+        current = current->next;
+    }
+
+    // Write the updated employee details back to the file
+    fp = fopen("employee.txt", "w");
+    current = returnHead();
+
+    while (current != NULL) {
+        fprintf(fp, "%d %s %s %d\n", current->empID, current->name, current->designation, current->salary);
+        current = current->next;
+    }
+
+    fclose(fp);
 }
 
 // Delete employee details
 void delete() {
-  int rm_empID, line_count;
+    int rm_empID, line_count;
 
-  printf("Enter the employee ID to delete: ");
-  scanf("%d", &rm_empID);
+    printf("Enter the employee ID to delete: ");
+    scanf("%d", &rm_empID);
 
-  FILE *fp = fopen("employee.txt", "r");
+    FILE *fp = fopen("employee.txt", "r");
 
-  // Count the number of lines in the file
-  line_count = 0;
-  int empID, salary;
-  char name[20], designation[20];
-  char *found_emp;
+    // Count the number of lines in the file
+    line_count = 0;
+    int empID, salary;
+    char name[20], designation[20];
+    char found_emp[100]; // Use a char array, not a pointer
 
+    while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
+        if (empID == rm_empID) {
+            sprintf(found_emp, "%d %s %s %d\n", empID, name, designation, salary);
+        }
 
-  while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
-    if (empID == rm_empID) {
-      found_emp = (char *)malloc(sizeof(char) * 100);
-      sprintf(found_emp, "%d %s %s %d\n", empID, name, designation, salary);
+        line_count++;
+    }
+
+    rewind(fp);  // Reset the file pointer to the beginning
+
+    struct QUEUE *q = (struct QUEUE *)malloc(sizeof(struct QUEUE));
+    q->front_ind = q->rear_ind = -1;
+    q->size = line_count;
+
+    char str[line_count][100];  // An array to hold the lines
+
+    // Read lines and enqueue them
+    int i = 0;
+    while (fgets(str[i], sizeof(str[i]), fp) != NULL) {
+        // Now you have a line stored in str[i], you can enqueue it.
+        enqueue(q, str[i]);
+        i++;
+    }
+    fclose(fp);
+
+    // now dequeue the lines and write to the file
+    fp = fopen("employee.txt", "w");
+
+    printf("found employee %s \n", found_emp);
+    char line[100]; // Use a char array, not a pointer
+    for (int i = q->front_ind + 1; i <= q->rear_ind; i++) {
+        strcpy(line, dequeue(q));
+
+        // if line match with found_emp then skip that line and write other lines to the FILE
+        if (strcmp(line, found_emp) == 0) {
+            continue;
+        }
+        fputs(line, fp);
     }
     
-    line_count++;
-  }
-
-  rewind(fp);  // Reset the file pointer to the beginning
-
-  struct QUEUE *q=(struct QUEUE *)malloc(sizeof(struct QUEUE));
-  q->front_ind = q->rear_ind = -1;
-  q->size = line_count;
-
-  char str[line_count][100];  // An array to hold the lines
-
-  // Read lines and enqueue them
-  int i = 0;
-  while (fgets(str[i], sizeof(str[i]), fp) != NULL) {
-    // Now you have a line stored in str[i], you can enqueue it.
-    enqueue(q, str[i]);
-    i++;
-  }
-  fclose(fp);
-
-  // now dequeue the lines and write to the file 
-  fp = fopen("employee.txt", "w");
-
-  printf("found employee %s \n", found_emp);
-  char *line;
-  for (int i = q->front_ind + 1; i <= q->rear_ind; i++) {
-    line = dequeue(q);
-     
-    // if line match wiht found_emp then skip that line and write other lines to the FILE 
-    if (strcmp(line, found_emp) == 0) {
-      continue;
-    }
-    fputs(line, fp);
-  }
-  fclose(fp);
+    free(q);
+    fclose(fp);
 }
-
-
 
 // Use system-specific commands to clear the terminal
 void clearScreen() {
@@ -217,6 +270,7 @@ int main()
         break;
       case 3:
         // update operation
+        update();
         break;
       case 4:
         // delete operation
