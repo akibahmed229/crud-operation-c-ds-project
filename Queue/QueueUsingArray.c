@@ -1,16 +1,7 @@
-#ifndef QUEUE_USING_ARRAY_H // If QUEUE_USING_ARRAY_H is not defined
-#define QUEUE_USING_ARRAY_H // Define QUEUE_USING_ARRAY_H
-
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define a structure for the QUEUE
-struct QUEUE {
-    int size;       // Maximum size of the QUEUE
-    int front_ind;  // Index of the front element
-    int rear_ind;   // Index of the rear element
-    char *arr[][100];       // Array to store QUEUE elements
-};
+#include "QueueUsingArray.h"
 
 // Function to check if the QUEUE is full
 int isFull(struct QUEUE *q) {
@@ -57,4 +48,3 @@ void printqueue(struct QUEUE *q) {
     printf("\n");
 }
 
-#endif // End of header file

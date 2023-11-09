@@ -1,9 +1,11 @@
+#include <bits/types/FILE.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "LinkList/LinkListOperation.h"
-#include "Queue/Circular_queue_using_array.h"
-#include "Stack/stack_using_array.h"
+
+#include "LinkList/LinkListOperation.c"
+#include "Queue/QueueUsingArray.c"
+#include "Stack/StackUsingArray.c"
 
 // Use system-specific commands to clear the terminal
 void clearScreen() {
