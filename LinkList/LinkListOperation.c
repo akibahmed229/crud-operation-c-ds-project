@@ -7,7 +7,6 @@
 
 // Function to create a singly linked list with a single employee node
 void createSinglyLinkedList(char name[], char designation[], int empID, int salary){
-  Node *head;
   Node *newNode;
 
   // Allocate memory for the new node
@@ -32,7 +31,6 @@ void createSinglyLinkedList(char name[], char designation[], int empID, int sala
 
 // Function to insert a new node at the beginning of the linked list
 void insertNodeAtBeginning(char name[], char designation[], int empID, int salary){
-  Node *head;
   // Allocate memory for the new node
   Node *newNode= (Node *) malloc(sizeof(Node));
 
@@ -46,7 +44,6 @@ void insertNodeAtBeginning(char name[], char designation[], int empID, int salar
 
 // Function to insert a new node at the end of the linked list
 void insertNodeAtEnd(char name[], char designation[], int empID, int salary){
-  Node *head;
   Node *newNode, *temp;
 
   // Allocate memory for the new node
@@ -69,7 +66,6 @@ void insertNodeAtEnd(char name[], char designation[], int empID, int salary){
 
 // Function to insert a new node at a specified position in the linked list
 void insertNodeAtPosition(char name[], char designation[], int empID, int salary, int position){
-  Node *head;
   Node *newNode, *temp;
 
   // Allocate memory for the new node
@@ -95,7 +91,6 @@ void insertNodeAtPosition(char name[], char designation[], int empID, int salary
 
 // Function to delete the first node in the linked list
 void deleteNodeAtBeginning(){
-  Node *head;
   Node *temp;
 
   temp = head;
@@ -105,7 +100,6 @@ void deleteNodeAtBeginning(){
 
 // Function to delete the last node in the linked list
 void deleteNodeAtEnd(){
-  Node *head;
   Node *temp, *prevNode;
 
   temp = head;
@@ -126,7 +120,6 @@ void deleteNodeAtEnd(){
 
 // Function to delete a node at a specified position in the linked list
 void deleteNodeAtPosition(int position){
-  Node *head;
   Node *temp, *prevNode;
 
   temp = head;
@@ -144,7 +137,6 @@ void deleteNodeAtPosition(int position){
 
 // Function to search for a node with a specific key in the linked list
 void searchNode(int key){
-  Node *head;
   Node *temp;
 
   temp = head; // Start from the head node
@@ -165,7 +157,6 @@ void searchNode(int key){
 
 // Function to print the elements of the linked list
 void printList(){
-  Node *head;
   while (head != NULL) {
     printf("Name: %s, Designation: %s, Employee ID: %d, Salary: %d\n", head->name, head->designation, head->empID, head->salary);
     head = head->next;
@@ -175,7 +166,6 @@ void printList(){
 
 // Function to free the memory allocated for the linked list 
 void freeMemory(){
-  Node *head;
   Node *temp;
 
   while (head != NULL) {
@@ -186,6 +176,5 @@ void freeMemory(){
 }
 
 Node * returnHead(){
-  Node *head;
   return head;
 }

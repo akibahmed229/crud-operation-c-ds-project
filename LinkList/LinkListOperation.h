@@ -9,7 +9,7 @@ struct node
   int empID;
   int salary;
   struct node *next;
-}; 
+}*head; 
 
 typedef struct node Node; // Define an alias "Node" for "struct node"
 
