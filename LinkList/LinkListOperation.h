@@ -14,6 +14,8 @@ struct node
 typedef struct node Node; // Define an alias "Node" for "struct node"
  
 
+// Function prototypes
+
 void createSinglyLinkedList(char name[], char designation[], int empID, int salary);
 
 void insertNodeAtBeginning(char name[], char designation[], int empID, int salary);

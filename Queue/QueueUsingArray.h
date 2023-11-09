@@ -10,9 +10,9 @@ struct QUEUE {
     char *arr[][100];       // Array to store QUEUE elements
 };
 
+// Function prototypes
 
 int isFull(struct QUEUE *q);
-
 
 int isEmpty(struct QUEUE *q);
 

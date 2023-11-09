@@ -8,6 +8,8 @@ struct stack {
   int *arr;    // Pointer to an integer array to store stack elements
 };
 
+// Function prototypes
+
 int is_Empty(struct stack *ptr);
 
 int is_Full(struct stack *ptr);

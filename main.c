@@ -49,13 +49,14 @@ void create(){
     printf("Enter employee salary: ");
     scanf("%d", &salary);
 
-    createSinglyLinkedList(name, designation, empID, salary);
+    createSinglyLinkedList(name, designation, empID, salary); // Add employees to the linked list
   }
 
   // Save the linked list to a file 
   FILE *fp;
   fp = fopen("employee.txt", "a");
 
+  // check if the file exists
   if (fp == NULL) {
     showError("Error opening file");
   }
@@ -64,7 +65,7 @@ void create(){
   Node *getHead = returnHead();
   Node *temp = getHead;
   while (temp != NULL) {
-    fprintf(fp, "%d %s %s %d\n", temp->empID, temp->name, temp->designation, temp->salary);
+    fprintf(fp, "%d %s %s %d\n", temp->empID, temp->name, temp->designation, temp->salary); // Write the employee details to the file
     temp = temp->next;
   };
 
@@ -77,9 +78,11 @@ void create(){
 
 // Read employee details
 void read(){
+  // Read the employee details from the file
   FILE *fp;
   fp = fopen("employee.txt", "r");
 
+  // check if the file exists
   if (fp == NULL) {
     showError("Error opening file");
   }
@@ -103,12 +106,13 @@ void update() {
     printf("Enter the employee ID to update: ");
     scanf("%d", &search_empID);
 
+    // Read the employee details from the file
     FILE *fp;
     fp = fopen("employee.txt", "r");
 
+    // store the employee details from the file
     int empID, salary;
     char name[20], designation[20];
-    Node *head = NULL; // Create a new linked list
 
     while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
         createSinglyLinkedList(name, designation, empID, salary); // Add employees to the linked list
@@ -116,6 +120,7 @@ void update() {
 
     fclose(fp);
 
+    // Update the employee details
     int new_empID, new_salary;
     char new_name[20], new_designation[20];
 
@@ -129,6 +134,7 @@ void update() {
     printf("Enter employee salary: ");
     scanf("%d", &new_salary);
 
+    // Update the employee details in the linked list
     Node *current = returnHead();
 
     while (current != NULL) {
@@ -168,6 +174,7 @@ void delete() {
     printf("Enter the employee ID to delete: ");
     scanf("%d", &rm_empID);
 
+    // Read the employee details from the file
     FILE *fp = fopen("employee.txt", "r");
 
     // Count the number of lines in the file
@@ -178,7 +185,7 @@ void delete() {
 
     while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
         if (empID == rm_empID) {
-            sprintf(found_emp, "%d %s %s %d\n", empID, name, designation, salary);
+            sprintf(found_emp, "%d %s %s %d\n", empID, name, designation, salary); // Store the line to be deleted
         }
 
         line_count++;
@@ -186,6 +193,7 @@ void delete() {
 
     rewind(fp);  // Reset the file pointer to the beginning
 
+    // Create a queue to store the lines
     struct QUEUE *q = (struct QUEUE *)malloc(sizeof(struct QUEUE));
     q->front_ind = q->rear_ind = -1;
     q->size = line_count;
