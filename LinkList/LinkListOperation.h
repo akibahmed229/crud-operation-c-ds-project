@@ -36,4 +36,6 @@ void printList();
 
 void freeMemory();
 
+Node * returnHead();
+
 #endif // End of header file
