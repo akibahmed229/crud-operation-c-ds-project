@@ -1,15 +1,7 @@
-#ifndef STACK_USING_ARRAY_H  // If STACK_USING_ARRAY_H is not defined
-#define STACK_USING_ARRAY_H  // Define STACK_USING_ARRAY_H
-
 #include <stdio.h>
 #include <stdlib.h>
 
-// Define a structure for the stack
-struct stack {
-  int size;    // Size of the stack
-  int top;     // Index of the top element in the stack
-  int *arr;    // Pointer to an integer array to store stack elements
-};
+#include "StackUsingArray.h"
 
 // Function to check if the stack is empty
 int is_Empty(struct stack *ptr){
@@ -74,6 +66,3 @@ void display(struct stack *sp){
     printf("The value at position %d is %d\n", j, peek(sp, j));
   }
 }
-
-
-#endif  // End of header file
