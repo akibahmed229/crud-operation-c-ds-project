@@ -6,36 +6,27 @@
 #include "Queue/Circular_queue_using_array.h"
 #include "Stack/stack_using_array.h"
 
-//  Function prototypes for CRUD operations on employee structure 
-
-// write employee details to file
-void write(){
-  // Save the linked list to a file 
-  FILE *fp;
-  fp = fopen("employee.txt", "a");
-
-  if (fp == NULL) {
-    printf("\033[0;31m");  // Red text
-    printf("\033[1m");     // Bold text
-    printf("Error opening file\n");
-    system("sleep 1");
-    printf("\033[0;31m");  // Red text
-  }
-
-  // write to the FILE
-  Node *getHead = returnHead();
-  Node *temp = getHead;
-  while (temp != NULL) {
-    fprintf(fp, "%d %s %s %d\n", temp->empID, temp->name, temp->designation, temp->salary);
-    temp = temp->next;
-  };
-
-  fclose(fp);
-
-  freeMemory(); 
+// Use system-specific commands to clear the terminal
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");  // For Windows
+    #else
+        system("clear");  // For Linux and Unix-like systems
+    #endif
 }
 
-//  Create employee details
+// Show error message
+void showError(char *message) {
+    printf("\033[0;31m");  // Red text
+    printf("\033[1m");     // Bold text
+    printf("%s\n", message);
+    system("sleep 1");
+    printf("\033[1m");     // Bold text
+    printf("\033[0;32m");  // Green text
+}
+
+//  Function prototypes for CRUD operations on employee structure 
+//  Create employee details & save to file
 void create(){
 #ifdef LINKLISTOPERATION_H
 
@@ -61,18 +52,27 @@ void create(){
 
     createSinglyLinkedList(name, designation, empID, salary);
   }
-  // write to file 
-  write();
-  // print nodes in the linked list
-  printList();
 
+  // Save the linked list to a file 
+  FILE *fp;
+  fp = fopen("employee.txt", "a");
+
+  if (fp == NULL) {
+    showError("Error opening file");
+  }
+
+  // write to the FILE
+  Node *getHead = returnHead();
+  Node *temp = getHead;
+  while (temp != NULL) {
+    fprintf(fp, "%d %s %s %d\n", temp->empID, temp->name, temp->designation, temp->salary);
+    temp = temp->next;
+  };
+
+  fclose(fp);
+  freeMemory(); 
 #else
-  printf("\033[0;31m");  // Red text
-  printf("\033[1m");     // Bold text
-  printf("LinkListOperation.h not found\n");
-  system("sleep 1");
-  printf("\033[1m");     // Bold text
-  printf("\033[0;32m");  // Green text
+  showError("LinkListOperation.h file not found");
 #endif
 }
 
@@ -82,13 +82,7 @@ void read(){
   fp = fopen("employee.txt", "r");
 
   if (fp == NULL) {
-    printf("\033[0;31m");  // Red text
-    printf("\033[1m");     // Bold text
-    printf("Error opening file\n");
-    system("sleep 1"); 
-    printf("\033[1m");     // Bold text
-    printf("\033[0;32m");  // Green text
-    return;
+    showError("Error opening file");
   }
  
   // store the employee details from the file
@@ -222,15 +216,6 @@ void delete() {
     fclose(fp);
 }
 
-// Use system-specific commands to clear the terminal
-void clearScreen() {
-    #ifdef _WIN32
-        system("cls");  // For Windows
-    #else
-        system("clear");  // For Linux and Unix-like systems
-    #endif
-}
-
 int main()
 {
   clearScreen();
@@ -280,13 +265,7 @@ int main()
         // exit
         exit(0);
       default:
-        printf("\033[0;31m");  // Red text
-        printf("\033[1m");     // Bold text
-        printf("Invalid choice\n");
-        system("sleep 1");
-        printf("\033[1m");     // Bold text
-        printf("\033[0;32m");  // Green text
-
+      showError("Invalid choice");
     }
   }
   printf("\033[0m");      // Reset to default colors
