@@ -5,6 +5,18 @@
 
 #include "LinkListOperation.h"
 
+// Define the structure for the linked list of employees
+struct node
+{
+  char name[20];
+  char designation[20];
+  int empID;
+  int salary;
+  struct node *next;
+}*head; 
+
+typedef struct node Node; // Define an alias "Node" for "struct node"
+
 // Function to create a singly linked list with a single employee node
 void createSinglyLinkedList(char name[], char designation[], int empID, int salary){
   Node *newNode;
