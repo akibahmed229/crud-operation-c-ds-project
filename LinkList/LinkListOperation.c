@@ -8,7 +8,7 @@
 Node *head;  // Define the variable in one source file
 
 // Function to create a singly linked list with a single employee node
-void createSinglyLinkedList(char name[], char designation[], int empID, int salary){
+void createSinglyLinkedList(char *name, char *designation, int empID, int salary){
   Node *newNode;
 
   // Allocate memory for the new node
@@ -32,7 +32,7 @@ void createSinglyLinkedList(char name[], char designation[], int empID, int sala
   }
 
 // Function to insert a new node at the beginning of the linked list
-void insertNodeAtBeginning(char name[], char designation[], int empID, int salary){
+void insertNodeAtBeginning(char * name, char * designation, int empID, int salary){
   // Allocate memory for the new node
   Node *newNode= (Node *) malloc(sizeof(Node));
 
@@ -45,7 +45,7 @@ void insertNodeAtBeginning(char name[], char designation[], int empID, int salar
 }
 
 // Function to insert a new node at the end of the linked list
-void insertNodeAtEnd(char name[], char designation[], int empID, int salary){
+void insertNodeAtEnd(char * name, char * designation, int empID, int salary){
   Node *newNode, *temp;
 
   // Allocate memory for the new node
@@ -67,7 +67,7 @@ void insertNodeAtEnd(char name[], char designation[], int empID, int salary){
 }
 
 // Function to insert a new node at a specified position in the linked list
-void insertNodeAtPosition(char name[], char designation[], int empID, int salary, int position){
+void insertNodeAtPosition(char *name, char * designation, int empID, int salary, int position){
   Node *newNode, *temp;
 
   // Allocate memory for the new node

@@ -8,7 +8,7 @@ struct node
   char designation[20];
   int empID;
   int salary;
-  struct node *next;
+  struct node *next; // Pointer to the next node
 }; 
 
 typedef struct node Node; // Define an alias "Node" for "struct node"
@@ -16,13 +16,13 @@ typedef struct node Node; // Define an alias "Node" for "struct node"
 
 // Function prototypes
 
-void createSinglyLinkedList(char name[], char designation[], int empID, int salary);
+void createSinglyLinkedList(char * name, char * designation, int empID, int salary);
 
-void insertNodeAtBeginning(char name[], char designation[], int empID, int salary);
+void insertNodeAtBeginning(char * name, char * designation, int empID, int salary);
 
-void insertNodeAtEnd(char name[], char designation[], int empID, int salary);
+void insertNodeAtEnd(char * name, char * designation, int empID, int salary);
 
-void insertNodeAtPosition(char name[], char designation[], int empID, int salary, int position);
+void insertNodeAtPosition(char * name, char * designation, int empID, int salary, int position);
 
 void deleteNodeAtBeginning();
 

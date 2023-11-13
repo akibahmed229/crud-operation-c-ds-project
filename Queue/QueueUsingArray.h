@@ -3,23 +3,25 @@
 
 
 // Define a structure for the QUEUE
-struct QUEUE {
+struct queue {
     int size;       // Maximum size of the QUEUE
     int front_ind;  // Index of the front element
     int rear_ind;   // Index of the rear element
-    char *arr[][100];       // Array to store QUEUE elements
+    char *arr[100];       // Array to store QUEUE elements
 };
+
+typedef struct queue Queue; // Define an alias "Queue" for "struct QUEUE"
 
 // Function prototypes
 
-int isFull(struct QUEUE *q);
+int isFull(Queue *q);
 
-int isEmpty(struct QUEUE *q);
+int isEmpty(Queue *q);
 
-void enqueue(struct QUEUE *q, char *data);
+void enqueue(Queue *q, char *data);
 
-char * dequeue(struct QUEUE *q);
+char * dequeue(Queue *q);
 
-void printqueue(struct QUEUE *q);
+void printqueue(Queue *q);
 
 #endif // End of header file

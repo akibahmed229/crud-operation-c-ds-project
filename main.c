@@ -7,6 +7,20 @@
 #include "Queue/QueueUsingArray.c"
 #include "Stack/StackUsingArray.c"
 
+// Function to delay the execution of the program
+void delay(int a)
+{
+    int add, time, i;
+
+    time = a * 1000000; // Converting into micro seconds 
+    for (i = 0; i < time; i++) 
+    {
+        add *= i;
+        add++;
+        add++;
+    }
+}
+
 // Use system-specific commands to clear the terminal
 void clearScreen() {
     #ifdef _WIN32
@@ -16,12 +30,38 @@ void clearScreen() {
     #endif
 }
 
+// Function to display the welcome screen
+void fordelay()
+{
+    int i;
+    printf("\n\n\n\t\t\t\t\t\t\t\t\t\t\t");
+    for (i = 0; i < 3; i++)
+    {
+        printf("* ");
+        delay(500); // Delay for 500 milliseconds  
+    }
+    printf("\n\n\n");
+}
+
+// Function to prompt the user for continuation
+int askToContinue() {
+    char choice;
+    printf("Do you want to continue? (y/n): ");
+    scanf(" %c", &choice);  // Notice the space before %c to consume the newline character from previous input
+
+    if (choice == 'y' || choice == 'Y') {
+        return 1;  // User wants to continue
+    } else {
+        exit(0);  // User chose to exit
+    }
+}
+
 // Show error message
 void showError(char *message) {
     printf("\033[0;31m");  // Red text
     printf("\033[1m");     // Bold text
     printf("%s\n", message);
-    system("sleep 1");
+    delay(100);
     printf("\033[1m");     // Bold text
     printf("\033[0;32m");  // Green text
 }
@@ -77,26 +117,32 @@ void create(){
 }
 
 // Read employee details
-void read(){
-  // Read the employee details from the file
-  FILE *fp;
-  fp = fopen("employee.txt", "r");
+void read() {
+    // Read the employee details from the file
+    FILE *fp;
+    fp = fopen("employee.txt", "r");
 
-  // check if the file exists
-  if (fp == NULL) {
-    showError("Error opening file");
-  }
- 
-  // store the employee details from the file
-  int empID, salary;
-  char name[20], designation[20];
+    // check if the file exists
+    if (fp == NULL) {
+        showError("Error opening file");
+    }
 
-  // read from the FILE 
-  while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
-    printf("%d %s %s %d\n", empID, name, designation, salary);
-  }
+    // store the employee details from the file
+    int empID, salary;
+    char name[20], designation[20];
 
-  fclose(fp);
+    // Printing column headers
+    printf("%-20s%-20s%-20s%-20s\n", "Employee ID", "Name", "Designation", "Salary");
+    printf("%-20s%-20s%-20s%-20s\n", "-----------", "----", "-----------", "------");
+
+    // read from the FILE 
+    while (fscanf(fp, "%d %s %s %d", &empID, name, designation, &salary) != EOF) {
+        // Printing formatted data
+        printf("%-20d%-20s%-20s%-20d\n", empID, name, designation, salary);
+    }
+    printf("\n\n\n\n");
+
+    fclose(fp);
 }
 
 // Update employee details
@@ -158,7 +204,7 @@ void update() {
         fprintf(fp, "%d %s %s %d\n", current->empID, current->name, current->designation, current->salary);
         current = current->next;
     }
-
+  
     fclose(fp);
     freeMemory();
 #else
@@ -194,7 +240,7 @@ void delete() {
     rewind(fp);  // Reset the file pointer to the beginning
 
     // Create a queue to store the lines
-    struct QUEUE *q = (struct QUEUE *)malloc(sizeof(struct QUEUE));
+    Queue *q = (Queue *)malloc(sizeof( Queue ));
     q->front_ind = q->rear_ind = -1;
     q->size = line_count;
 
@@ -243,6 +289,8 @@ int main()
   printf("\033[0;32m");  // Green text
   printf("\033[1m");     // Bold text
   printf("\033[40m");    // Black background
+  
+  fordelay();
 
   // Main menu
   while (1) {
@@ -262,25 +310,33 @@ int main()
     switch (choice) {
       case 1:
         // create operation
+        printf("\n| ==============================CREATE YOUR ACCOUNT============================== |\n\n");
         create();
+        askToContinue();
         break;
       case 2:
         // read operation
+        printf("\n| ===============================READ YOUR ACCOUNT=============================== |\n\n");
         read();
+        askToContinue();
         break;
       case 3:
         // update operation
+        printf("\n| ==============================UPDATE YOUR ACCOUNT============================== |\n\n");
         update();
+        askToContinue();
         break;
       case 4:
         // delete operation
+        printf("\n| ==============================DELETE YOUR ACCOUNT============================== |\n\n");
         delete();
+        askToContinue();
         break; 
       case 5:
         // exit
         exit(0);
       default:
-      showError("Invalid choice");
+      showError("\nInvalid choice");
     }
   }
   printf("\033[0m");      // Reset to default colors
