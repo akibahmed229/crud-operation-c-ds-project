@@ -21,13 +21,13 @@ void createSinglyLinkedList(char *name, char *designation, int empID, int salary
   newNode->next = NULL;
 
   if (head == NULL) {
-    head = newNode;
+    head = newNode; // If the linked list is empty, set the head to the new node
   } else {
       Node *temp = head;
       while (temp->next != NULL) {
         temp = temp->next;
       }
-      temp->next = newNode;
+      temp->next = newNode; // Connect the last node to the new node   
     }
   }
 
