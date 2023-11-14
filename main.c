@@ -140,7 +140,6 @@ void read() {
         // Printing formatted data
         printf("%-20d%-20s%-20s%-20d\n", empID, name, designation, salary);
     }
-    printf("\n\n\n\n");
 
     fclose(fp);
 }
@@ -312,25 +311,33 @@ int main()
         // create operation
         printf("\n| ==============================CREATE YOUR ACCOUNT============================== |\n\n");
         create();
+        printf("\n| =============================================================================== |\n\n");
         askToContinue();
+        printf("\n\n");
         break;
       case 2:
         // read operation
         printf("\n| ===============================READ YOUR ACCOUNT=============================== |\n\n");
         read();
+        printf("\n| =============================================================================== |\n\n");
         askToContinue();
+        printf("\n\n");
         break;
       case 3:
         // update operation
         printf("\n| ==============================UPDATE YOUR ACCOUNT============================== |\n\n");
         update();
+        printf("\n| =============================================================================== |\n\n");
         askToContinue();
+        printf("\n\n");
         break;
       case 4:
         // delete operation
         printf("\n| ==============================DELETE YOUR ACCOUNT============================== |\n\n");
         delete();
+        printf("\n| =============================================================================== |\n\n");
         askToContinue();
+        printf("\n\n");
         break; 
       case 5:
         // exit
