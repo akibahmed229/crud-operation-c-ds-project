@@ -13,11 +13,13 @@ void delay(int a)
     int add, time, i;
 
     time = a * 1000000; // Converting into micro seconds 
+    // Loop to add the delay 
     for (i = 0; i < time; i++) 
     {
+        // Dummy operation to consume time
         add *= i;
         add++;
-        add++;
+        add++; 
     }
 }
 
@@ -35,6 +37,8 @@ void fordelay()
 {
     int i;
     printf("\n\n\n\t\t\t\t\t\t\t\t\t\t\t");
+    
+    // Loop to print the asterisks
     for (i = 0; i < 3; i++)
     {
         printf("* ");
@@ -69,7 +73,7 @@ void showError(char *message) {
 //  Function prototypes for CRUD operations on employee structure 
 //  Create employee details & save to file
 void create(){
-#ifdef LINKLISTOPERATION_H
+#ifdef LINKLISTOPERATION_H // Check if the header file is present
   int n;
   printf("Enter the number of employees: ");
   scanf("%d", &n);
@@ -111,7 +115,7 @@ void create(){
 
   fclose(fp);
   freeMemory(); 
-#else
+#else // If the header file is not present
   showError("LinkListOperation.h file not found");
 #endif
 }
@@ -132,7 +136,7 @@ void read() {
     char name[20], designation[20];
 
     // Printing column headers
-    printf("%-20s%-20s%-20s%-20s\n", "Employee ID", "Name", "Designation", "Salary");
+    printf("%-20s%-20s%-20s%-20s\n", "Employee ID", "Name", "Designation", "Salary"); // %-20s means left aligned with 20 characters
     printf("%-20s%-20s%-20s%-20s\n", "-----------", "----", "-----------", "------");
 
     // read from the FILE 
@@ -146,7 +150,7 @@ void read() {
 
 // Update employee details
 void update() {
-#ifdef LINKLISTOPERATION_H
+#ifdef LINKLISTOPERATION_H // Check if the header file is present
     int search_empID;
     printf("Enter the employee ID to update: ");
     scanf("%d", &search_empID);
@@ -206,14 +210,14 @@ void update() {
   
     fclose(fp);
     freeMemory();
-#else
+#else // If the header file is not present
     showError("LinkListOperation.h file not found");
 #endif
 }
 
 // Delete employee details
 void delete() {
-#ifdef QUEUE_USING_ARRAY_H
+#ifdef QUEUE_USING_ARRAY_H // Check if the header file is present
     int rm_empID, line_count;
 
     printf("Enter the employee ID to delete: ");
@@ -271,7 +275,7 @@ void delete() {
     
     free(q);
     fclose(fp);
-#else
+#else // If the header file is not present
     showError("QueueUsingArray.h file not found");
 #endif
 }
